@@ -6,9 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 @Entity
@@ -34,6 +32,10 @@ public class User implements UserDetails {
             inverseJoinColumns = { @JoinColumn(name = "product_id")}
     )
     List<Product> productList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private Set<Order> orders = new HashSet<>();
 
     @Transient
     private String role;
